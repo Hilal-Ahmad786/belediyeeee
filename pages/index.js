@@ -26,7 +26,7 @@ const Home = () => {
   return (
     <Container>
       <h1>Welcome to the Wizard Form</h1>
-      <Link href={`${publicRuntimeConfig.basePath}/step1`}>
+      <Link href="/step1">
         <Button>Start Form</Button>
       </Link>
     </Container>

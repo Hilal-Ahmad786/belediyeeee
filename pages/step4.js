@@ -1,4 +1,3 @@
-// pages/step4.js
 import { useState } from 'react';
 import styled from '@emotion/styled';
 
@@ -113,4 +112,3 @@ const Step4 = () => {
 };
 
 export default Step4;
-

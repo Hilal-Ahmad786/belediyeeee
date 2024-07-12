@@ -1,4 +1,4 @@
-  /** @type {import('next').NextConfig} */
+/** @type {import('next').NextConfig} */
 const nextConfig = {
   output: 'export',
   basePath: '/belediyeeee',
@@ -7,9 +7,8 @@ const nextConfig = {
     unoptimized: true, // Necessary for GitHub Pages
   },
   publicRuntimeConfig: {
-    basePath: '/belediyeeee',
+    basePath: '/belediyeeee', // Public runtime configuration
   },
-  };
-  
-  export default nextConfig;
-  
+};
+
+export default nextConfig;

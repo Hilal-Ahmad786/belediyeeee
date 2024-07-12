@@ -31,11 +31,11 @@ const Step1 = () => {
 
   const nextStep = () => {
     if (selection === 'Taleb') {
-      router.push(`${publicRuntimeConfig.basePath}/step2a`);
+      router.push('/step2a');
     } else if (selection === 'Şikayet') {
-      router.push(`${publicRuntimeConfig.basePath}/step2b`);
+      router.push('/step2b');
     } else if (selection === 'Öneri') {
-      router.push(`${publicRuntimeConfig.basePath}/step2c`);
+      router.push('/step2c');
     }
   };
 

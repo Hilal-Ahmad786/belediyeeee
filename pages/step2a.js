@@ -1,4 +1,3 @@
-// pages/step2a.js
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import CustomRadioButton from '../components/CustomRadioButton';
@@ -28,7 +27,7 @@ const Step2a = () => {
   };
 
   const nextStep = () => {
-    router.push(`${publicRuntimeConfig.basePath}/step2a`);
+    router.push('/step3');
   };
 
   return (
