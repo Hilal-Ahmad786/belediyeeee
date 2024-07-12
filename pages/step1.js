@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 import CustomRadioButton from '../components/CustomRadioButton';
 import styled from '@emotion/styled';
+import Link from 'next/link';
 
 const Container = styled.div`
   padding: 32px;
@@ -29,11 +30,11 @@ const Step1 = () => {
 
   const nextStep = () => {
     if (selection === 'Taleb') {
-      router.push('/step2a');
+      router.push('/belediyeeee/step2a');
     } else if (selection === 'Şikayet') {
-      router.push('/step2b');
+      router.push('/belediyeeee/step2b');
     } else if (selection === 'Öneri') {
-      router.push('/step2c');
+      router.push('/belediyeeee/step2c');
     }
   };
 
