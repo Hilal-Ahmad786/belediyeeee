@@ -1,5 +1,8 @@
 import { useState } from 'react';
 import styled from '@emotion/styled';
+import getConfig from 'next/config';
+
+const { publicRuntimeConfig } = getConfig();
 
 const Container = styled.div`
   padding: 32px;
@@ -65,7 +68,7 @@ const Step4 = () => {
   };
 
   const handleSubmit = async () => {
-    const response = await fetch('/api/submit', {
+    const response = await fetch(`${publicRuntimeConfig.basePath}/api/submit`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

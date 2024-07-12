@@ -30,12 +30,13 @@ const Step1 = () => {
   };
 
   const nextStep = () => {
+    const basePath = publicRuntimeConfig.basePath;
     if (selection === 'Taleb') {
-      router.push('/step2a');
+      router.push(`${basePath}/step2a`);
     } else if (selection === 'Şikayet') {
-      router.push('/step2b');
+      router.push(`${basePath}/step2b`);
     } else if (selection === 'Öneri') {
-      router.push('/step2c');
+      router.push(`${basePath}/step2c`);
     }
   };
 
