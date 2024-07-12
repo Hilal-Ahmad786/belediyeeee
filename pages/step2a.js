@@ -1,10 +1,8 @@
+// pages/step2a.js
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import CustomRadioButton from '../components/CustomRadioButton';
 import styled from '@emotion/styled';
-import getConfig from 'next/config';
-
-const { publicRuntimeConfig } = getConfig();
 
 const Container = styled.div`
   padding: 32px;
@@ -30,8 +28,7 @@ const Step2a = () => {
   };
 
   const nextStep = () => {
-    const basePath = publicRuntimeConfig.basePath;
-    router.push(`${basePath}/step3`);
+    router.push('/step3');
   };
 
   return (

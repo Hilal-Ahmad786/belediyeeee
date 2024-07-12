@@ -1,10 +1,8 @@
+// pages/step1.js
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import CustomRadioButton from '../components/CustomRadioButton';
 import styled from '@emotion/styled';
-import getConfig from 'next/config';
-
-const { publicRuntimeConfig } = getConfig();
 
 const Container = styled.div`
   padding: 32px;
@@ -30,13 +28,12 @@ const Step1 = () => {
   };
 
   const nextStep = () => {
-    const basePath = publicRuntimeConfig.basePath;
     if (selection === 'Taleb') {
-      router.push(`${basePath}/step2a`);
+      router.push('/step2a');
     } else if (selection === 'Şikayet') {
-      router.push(`${basePath}/step2b`);
+      router.push('/step2b');
     } else if (selection === 'Öneri') {
-      router.push(`${basePath}/step2c`);
+      router.push('/step2c');
     }
   };
 

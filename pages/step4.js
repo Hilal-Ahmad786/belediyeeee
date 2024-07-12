@@ -1,8 +1,6 @@
+// pages/step4.js
 import { useState } from 'react';
 import styled from '@emotion/styled';
-import getConfig from 'next/config';
-
-const { publicRuntimeConfig } = getConfig();
 
 const Container = styled.div`
   padding: 32px;
@@ -68,8 +66,7 @@ const Step4 = () => {
   };
 
   const handleSubmit = async () => {
-    const basePath = publicRuntimeConfig.basePath;
-    const response = await fetch(`${basePath}/api/submit`, {
+    const response = await fetch('/api/submit', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

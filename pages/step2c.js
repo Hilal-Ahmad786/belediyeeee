@@ -1,10 +1,8 @@
+// pages/step2a.js
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import CustomRadioButton from '../components/CustomRadioButton';
 import styled from '@emotion/styled';
-import getConfig from 'next/config';
-
-const { publicRuntimeConfig } = getConfig();
 
 const Container = styled.div`
   padding: 32px;
@@ -21,7 +19,7 @@ const Button = styled.button`
   font-size: 16px;
 `;
 
-const Step2c = () => {
+const Step2a = () => {
   const [selection, setSelection] = useState('');
   const router = useRouter();
 
@@ -30,21 +28,19 @@ const Step2c = () => {
   };
 
   const nextStep = () => {
-    const basePath = publicRuntimeConfig.basePath;
-    router.push(`${basePath}/step3`);
+    router.push('/step3');
   };
 
   return (
     <Container>
       <h1>Başvuru Türünüzü Seçiniz</h1>
-      <CustomRadioButton name="subtype" value="Ulaşım" label="Ulaşım" onChange={handleChange} checked={selection === 'Ulaşım'} />
-      <CustomRadioButton name="subtype" value="Temizlik" label="Temizlik" onChange={handleChange} checked={selection === 'Temizlik'} />
-      <CustomRadioButton name="subtype" value="Kültür" label="Kültür" onChange={handleChange} checked={selection === 'Kültür'} />
-      <CustomRadioButton name="subtype" value="Eğitim" label="Eğitim" onChange={handleChange} checked={selection === 'Eğitim'} />
-      <CustomRadioButton name="subtype" value="Teknoloji" label="Teknoloji" onChange={handleChange} checked={selection === 'Teknoloji'} />
+      <CustomRadioButton name="subtype" value="Sosyal Yardım Talebi" label="Sosyal Yardım Talebi" onChange={handleChange} checked={selection === 'Sosyal Yardım Talebi'} />
+      <CustomRadioButton name="subtype" value="Bilgi Edinme" label="Bilgi Edinme" onChange={handleChange} checked={selection === 'Bilgi Edinme'} />
+      <CustomRadioButton name="subtype" value="Ruhsat" label="Ruhsat" onChange={handleChange} checked={selection === 'Ruhsat'} />
+      <CustomRadioButton name="subtype" value="İmar" label="İmar" onChange={handleChange} checked={selection === 'İmar'} />
       <Button onClick={nextStep}>Next</Button>
     </Container>
   );
 };
 
-export default Step2c;
+export default Step2a;
