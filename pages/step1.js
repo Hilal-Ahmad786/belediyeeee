@@ -1,4 +1,3 @@
-// pages/step1.js
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import CustomRadioButton from '../components/CustomRadioButton';

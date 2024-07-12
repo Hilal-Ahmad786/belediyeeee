@@ -28,7 +28,7 @@ const Step2b = () => {
   };
 
   const nextStep = () => {
-    router.push('/step3');
+    router.push(`${publicRuntimeConfig.basePath}/step3`);
   };
 
   return (

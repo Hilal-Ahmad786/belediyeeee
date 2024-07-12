@@ -1,4 +1,3 @@
-// pages/index.js
 import styled from '@emotion/styled';
 import Link from 'next/link';
 import getConfig from 'next/config';
