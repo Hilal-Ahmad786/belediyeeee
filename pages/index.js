@@ -1,5 +1,4 @@
 // pages/index.js
-import { useRouter } from 'next/router';
 import styled from '@emotion/styled';
 import Link from 'next/link';
 

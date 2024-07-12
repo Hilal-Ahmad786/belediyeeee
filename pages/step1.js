@@ -3,7 +3,6 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 import CustomRadioButton from '../components/CustomRadioButton';
 import styled from '@emotion/styled';
-import Link from 'next/link';
 
 const Container = styled.div`
   padding: 32px;

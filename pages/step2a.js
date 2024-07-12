@@ -28,7 +28,7 @@ const Step2a = () => {
   };
 
   const nextStep = () => {
-    router.push('/step3');
+    router.push('/belediyeeee/step3');
   };
 
   return (
