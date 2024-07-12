@@ -68,7 +68,8 @@ const Step4 = () => {
   };
 
   const handleSubmit = async () => {
-    const response = await fetch(`${publicRuntimeConfig.basePath}/api/submit`, {
+    const basePath = publicRuntimeConfig.basePath;
+    const response = await fetch(`${basePath}/api/submit`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

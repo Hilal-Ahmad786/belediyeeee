@@ -21,7 +21,7 @@ const Button = styled.button`
   font-size: 16px;
 `;
 
-const Step1 = () => {
+const Step2a = () => {
   const [selection, setSelection] = useState('');
   const router = useRouter();
 
@@ -31,24 +31,19 @@ const Step1 = () => {
 
   const nextStep = () => {
     const basePath = publicRuntimeConfig.basePath;
-    if (selection === 'Taleb') {
-      router.push(`${basePath}/step2a`);
-    } else if (selection === 'Şikayet') {
-      router.push(`${basePath}/step2b`);
-    } else if (selection === 'Öneri') {
-      router.push(`${basePath}/step2c`);
-    }
+    router.push(`${basePath}/step3`);
   };
 
   return (
     <Container>
       <h1>Başvuru Türünüzü Seçiniz</h1>
-      <CustomRadioButton name="type" value="Taleb" label="Taleb" onChange={handleChange} checked={selection === 'Taleb'} />
-      <CustomRadioButton name="type" value="Şikayet" label="Şikayet" onChange={handleChange} checked={selection === 'Şikayet'} />
-      <CustomRadioButton name="type" value="Öneri" label="Öneri" onChange={handleChange} checked={selection === 'Öneri'} />
+      <CustomRadioButton name="subtype" value="Sosyal Yardım Talebi" label="Sosyal Yardım Talebi" onChange={handleChange} checked={selection === 'Sosyal Yardım Talebi'} />
+      <CustomRadioButton name="subtype" value="Bilgi Edinme" label="Bilgi Edinme" onChange={handleChange} checked={selection === 'Bilgi Edinme'} />
+      <CustomRadioButton name="subtype" value="Ruhsat" label="Ruhsat" onChange={handleChange} checked={selection === 'Ruhsat'} />
+      <CustomRadioButton name="subtype" value="İmar" label="İmar" onChange={handleChange} checked={selection === 'İmar'} />
       <Button onClick={nextStep}>Next</Button>
     </Container>
   );
 };
 
-export default Step1;
+export default Step2a;
