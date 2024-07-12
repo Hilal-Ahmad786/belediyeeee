@@ -6,6 +6,9 @@ const nextConfig = {
   images: {
     unoptimized: true, // Necessary for GitHub Pages
   },
+  publicRuntimeConfig: {
+    basePath: '/belediyeeee',
+  },
   };
   
   export default nextConfig;

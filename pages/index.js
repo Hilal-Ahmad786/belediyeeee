@@ -1,7 +1,9 @@
 // pages/index.js
 import styled from '@emotion/styled';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
+import getConfig from 'next/config';
+
+const { publicRuntimeConfig } = getConfig();
 
 const Container = styled.div`
   display: flex;
@@ -22,12 +24,10 @@ const Button = styled.button`
 `;
 
 const Home = () => {
-  const router = useRouter();
-
   return (
     <Container>
       <h1>Welcome to the Wizard Form</h1>
-      <Link href={`${router.basePath}/step1`}>
+      <Link href={`${publicRuntimeConfig.basePath}/step1`}>
         <Button>Start Form</Button>
       </Link>
     </Container>
