@@ -1,3 +1,4 @@
+// pages/step4.js
 import { useState } from 'react';
 import styled from '@emotion/styled';
 
@@ -36,54 +37,48 @@ const Select = styled.select`
   width: 100%;
 `;
 
-const Step4 = ({ data, onChange, stepData }) => {
+const Step4 = () => {
+  const [formData, setFormData] = useState({
+    name: '',
+    surname: '',
+    phone: '',
+    email: '',
+    gender: '',
+    address: '',
+    video: '',
+    image: ''
+  });
+
   const handleChange = (e) => {
     const { name, value } = e.target;
-    onChange({
-      ...data,
-      [name]: value,
-    });
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value
+    }));
   };
 
   const handleFileChange = (e) => {
     const { name, files } = e.target;
-    onChange({
-      ...data,
-      [name]: files[0],
-    });
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: files[0]
+    }));
   };
 
   const handleSubmit = async () => {
-    const combinedData = {
-      ...stepData,
-      step4: data,
-    };
+    const response = await fetch('/api/submit', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(formData)
+    });
 
-    const formData = new FormData();
-    for (const key in combinedData) {
-      if (typeof combinedData[key] === 'object' && combinedData[key] !== null && !Array.isArray(combinedData[key])) {
-        for (const subKey in combinedData[key]) {
-          formData.append(`${key}[${subKey}]`, combinedData[key][subKey]);
-        }
-      } else {
-        formData.append(key, combinedData[key]);
-      }
-    }
-
-    try {
-      const response = await fetch('/api/submit', {
-        method: 'POST',
-        body: formData,
-      });
-
-      if (response.ok) {
-        alert('Form submitted successfully!');
-      } else {
-        console.error('Form submission failed:', response.statusText);
-        alert('Form submission failed.');
-      }
-    } catch (error) {
-      console.error('Error during form submission:', error);
+    if (response.ok) {
+      // Handle successful submission
+      alert('Form submitted successfully!');
+    } else {
+      // Handle error
       alert('Form submission failed.');
     }
   };
