@@ -1,4 +1,4 @@
-import '../styles/globals.css';
+import '../app/globals.css';
 import ChatBot from '../components/ChatBot';
 
 function MyApp({ Component, pageProps }) {
