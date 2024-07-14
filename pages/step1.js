@@ -1,57 +1,50 @@
-// pages/step1.js
-import { useState } from 'react';
+
 import StepLayout from '../components/StepLayout';
 
+
+
 import { useRouter } from 'next/router';
-import CustomRadioButton from '../components/CustomRadioButton';
-import styled from '@emotion/styled';
-import getConfig from 'next/config';
+import { Button, Container } from 'react-bootstrap';
+import styles from '../app/Step.module.css';
 
-const { publicRuntimeConfig } = getConfig();
-
-const Container = styled.div`
-  padding: 32px;
-`;
-
-const Button = styled.button`
-  margin-top: 16px;
-  padding: 16px 32px;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 16px;
-`;
-
-const Step1 = () => {
-  const [selection, setSelection] = useState('');
+export default function Step1() {
   const router = useRouter();
 
-  const handleChange = (e) => {
-    setSelection(e.target.value);
-  };
-
-  const nextStep = () => {
-    if (selection === 'Taleb') {
-      router.push(`${publicRuntimeConfig.basePath}/step2a`);
-    } else if (selection === 'Şikayet') {
-      router.push(`${publicRuntimeConfig.basePath}/step2b`);
-    } else if (selection === 'Öneri') {
-      router.push(`${publicRuntimeConfig.basePath}/step2c`);
-    }
+  const handleNavigation = (path) => {
+    router.push(path);
   };
 
   return (
-    <Container>
+    <Container className="my-4">
       <StepLayout>
-      <h1>Başvuru Türünüzü Seçiniz</h1>
-      <CustomRadioButton name="type" value="Taleb" label="Taleb" onChange={handleChange} checked={selection === 'Taleb'} />
-      <CustomRadioButton name="type" value="Şikayet" label="Şikayet" onChange={handleChange} checked={selection === 'Şikayet'} />
-      <CustomRadioButton name="type" value="Öneri" label="Öneri" onChange={handleChange} checked={selection === 'Öneri'} />
-      <Button onClick={nextStep} className='btn btn-success'>Next</Button>
+      <h1 className='m-3'>E-Belediye Hizmetleri</h1>
+      <div className={styles.buttonContainer}>
+        <Button className={styles.nextButton} onClick={() => handleNavigation('/step2a')}>
+          Gelirler Mükellef Rehberi <span className={styles.arrow}>→</span>
+        </Button>
+        <Button className={styles.nextButton} onClick={() => handleNavigation('/step2b')}>
+          e-Sorgulama Uygulamaları <span className={styles.arrow}>→</span>
+        </Button>
+        <Button className={styles.nextButton} onClick={() => handleNavigation('/step2c')}>
+          e-Ödeme <span className={styles.arrow}>→</span>
+        </Button>
+        <Button className={styles.nextButton} onClick={() => handleNavigation('/step3')}>
+          e-Beyanname <span className={styles.arrow}>→</span>
+        </Button>
+        <Button className={styles.nextButton} onClick={() => handleNavigation('/step4')}>
+          e-Bilgi <span className={styles.arrow}>→</span>
+        </Button>
+        <Button className={styles.nextButton} onClick={() => handleNavigation('/step5')}>
+          e-Başvuru Uygulamaları <span className={styles.arrow}>→</span>
+        </Button>
+        <Button className={styles.linkButton} onClick={() => handleNavigation('/solution-center')}>
+          Çözüm Merkezi <span className={styles.linkIcon}>🔗</span>
+        </Button>
+        <Button className={styles.linkButton} onClick={() => handleNavigation('/petition')}>
+          e-Dilekçe <span className={styles.linkIcon}>🔗</span>
+        </Button>
+      </div>
       </StepLayout>
     </Container>
   );
-};
-
-export default Step1;
+}

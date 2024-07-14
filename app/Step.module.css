@@ -1,0 +1,36 @@
+.buttonContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .nextButton {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #28a745;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+  }
+  
+  .linkButton {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #007bff;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+  }
+  
+  .arrow {
+    margin-left: 10px;
+  }
+  
+  .linkIcon {
+    margin-left: 10px;
+  }
+  
