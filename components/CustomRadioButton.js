@@ -11,7 +11,7 @@ const Input = styled.input`
   display: none;
 
   &:checked + label {
-    background-color: #0070f3;
+    background-color: #5cb85c;
     color: white;
   }
 `;
@@ -20,7 +20,7 @@ const Label = styled.label`
   display: inline-block;
   padding: 8px 16px;
   margin: 4px;
-  border: 2px solid #0070f3;
+  border: 2px solid #5cb85c;
   border-radius: 8px;
   cursor: pointer;
 `;

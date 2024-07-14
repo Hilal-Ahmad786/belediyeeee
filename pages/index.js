@@ -2,6 +2,7 @@
 import styled from '@emotion/styled';
 import Link from 'next/link';
 import getConfig from 'next/config';
+import styles from '../app/Home.module.css';
 
 const { publicRuntimeConfig } = getConfig();
 
@@ -15,7 +16,6 @@ const Container = styled.div`
 
 const Button = styled.button`
   padding: 16px 32px;
-  background-color: #0070f3;
   color: white;
   border: none;
   border-radius: 8px;
@@ -25,12 +25,16 @@ const Button = styled.button`
 
 const Home = () => {
   return (
-    <Container>
-      <h1>Welcome to the Wizard Form</h1>
+    <div className={styles.homeBackground}>
+    <Container className="text-center" style={{ position: 'relative', zIndex: 1 }}>
+    <h1 className="display-4 text-light">Welcome to Modern Bursa</h1>
+    <p className="lead text-light">Discover the vibrant and contemporary side of Bursa while appreciating its rich history.</p>
       <Link href={`${publicRuntimeConfig.basePath}/step1`}>
-        <Button>Start Form</Button>
+        <Button className='btn btn-success'>Start Form</Button>
       </Link>
     </Container>
+        </div>
+
   );
 };
 

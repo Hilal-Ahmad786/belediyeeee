@@ -17,6 +17,12 @@
 }
 
 body {
+  background-color: white!important;
+  color: black!important;
+}
+
+
+body {
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(
       to bottom,

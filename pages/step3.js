@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 import CustomRadioButton from '../components/CustomRadioButton';
 import styled from '@emotion/styled';
+import StepLayout from '../components/StepLayout';
 
 const Container = styled.div`
   padding: 32px;
@@ -11,7 +12,6 @@ const Container = styled.div`
 const Button = styled.button`
   margin-top: 16px;
   padding: 16px 32px;
-  background-color: #0070f3;
   color: white;
   border: none;
   border-radius: 8px;
@@ -33,6 +33,7 @@ const Step3 = () => {
 
   return (
     <Container>
+      <StepLayout>
       <h1>Başvuru İçin İlgili Birimi Seçiniz</h1>
       <CustomRadioButton name="department" value="Genel Sekreterlik" label="Genel Sekreterlik" onChange={handleChange} checked={selection === 'Genel Sekreterlik'} />
       <CustomRadioButton name="department" value="Bilgi İşlem" label="Bilgi İşlem" onChange={handleChange} checked={selection === 'Bilgi İşlem'} />
@@ -40,7 +41,8 @@ const Step3 = () => {
       <CustomRadioButton name="department" value="Park Bahçeler" label="Park Bahçeler" onChange={handleChange} checked={selection === 'Park Bahçeler'} />
       <CustomRadioButton name="department" value="Ulaşım" label="Ulaşım" onChange={handleChange} checked={selection === 'Ulaşım'} />
       <CustomRadioButton name="department" value="Diğer" label="Diğer" onChange={handleChange} checked={selection === 'Diğer'} />
-      <Button onClick={nextStep}>Next</Button>
+      <Button onClick={nextStep} className='btn btn-success'>Next</Button>
+      </StepLayout>
     </Container>
   );
 };

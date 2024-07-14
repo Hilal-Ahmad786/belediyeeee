@@ -1,6 +1,7 @@
 // pages/step4.js
 import { useState } from 'react';
 import styled from '@emotion/styled';
+import StepLayout from '../components/StepLayout';
 
 const Container = styled.div`
   padding: 32px;
