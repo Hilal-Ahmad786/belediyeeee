@@ -19,7 +19,7 @@ export default function Step1() {
       <StepLayout>
       <h1 className='m-3'>E-Belediye Hizmetleri</h1>
       <div className={styles.buttonContainer}>
-        <Button className={styles.nextButton} onClick={() => handleNavigation('/step2a')}>
+      <Button className={styles.nextButton} onClick={() => handleNavigation('/gelirler-rehberi')}>
           Gelirler Mükellef Rehberi <span className={styles.arrow}>→</span>
         </Button>
         <Button className={styles.nextButton} onClick={() => handleNavigation('/step2b')}>

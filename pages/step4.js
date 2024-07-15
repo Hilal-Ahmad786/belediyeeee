@@ -42,12 +42,12 @@ const Step4 = () => {
   const [formData, setFormData] = useState({
     name: '',
     surname: '',
+    idNumber: '',
     phone: '',
     email: '',
-    gender: '',
-    address: '',
-    video: '',
-    image: ''
+    education: '',
+    occupation: '',
+    district: ''
   });
 
   const handleChange = (e) => {
@@ -55,14 +55,6 @@ const Step4 = () => {
     setFormData((prevData) => ({
       ...prevData,
       [name]: value
-    }));
-  };
-
-  const handleFileChange = (e) => {
-    const { name, files } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: files[0]
     }));
   };
 
@@ -76,39 +68,71 @@ const Step4 = () => {
     });
 
     if (response.ok) {
-      // Handle successful submission
-      alert('Form submitted successfully!');
+      alert('Form başarıyla gönderildi!');
     } else {
-      // Handle error
-      alert('Form submission failed.');
+      alert('Form gönderimi başarısız oldu.');
     }
   };
 
   return (
     <Container>
       <h1>Kişisel Bilgiler</h1>
-      <Input type="text" name="name" placeholder="Name" onChange={handleChange} />
-      <Input type="text" name="surname" placeholder="Surname" onChange={handleChange} />
-      <Input type="text" name="phone" placeholder="Phone Number" onChange={handleChange} />
+      <Input type="text" name="name" placeholder="İsim" onChange={handleChange} />
+      <Input type="text" name="surname" placeholder="Soyisim" onChange={handleChange} />
+      <Input type="text" name="idNumber" placeholder="Kimlik Numarası" onChange={handleChange} />
+      <Input type="text" name="phone" placeholder="Telefon Numarası" onChange={handleChange} />
       <Input type="email" name="email" placeholder="Email" onChange={handleChange} />
 
-      <Label>Gender</Label>
-      <Select name="gender" onChange={handleChange}>
-        <option value="">Select Gender</option>
-        <option value="male">Male</option>
-        <option value="female">Female</option>
-        <option value="other">Other</option>
+      <Label>Eğitim Durumu</Label>
+      <Select name="education" onChange={handleChange}>
+        <option value="">Eğitim Durumu Seçin</option>
+        <option value="ilkokul">İlkokul</option>
+        <option value="ortaokul">Ortaokul</option>
+        <option value="lise">Lise</option>
+        <option value="universite">Üniversite</option>
+        <option value="yuksek_lisans">Yüksek Lisans</option>
+        <option value="doktora">Doktora</option>
       </Select>
 
-      <Input type="text" name="address" placeholder="Address" onChange={handleChange} />
+      <Label>Meslek</Label>
+      <Select name="occupation" onChange={handleChange}>
+        <option value="">Meslek Seçin</option>
+        <option value="doctor">Doktor</option>
+        <option value="engineer">Mühendis</option>
+        <option value="teacher">Öğretmen</option>
+        <option value="lawyer">Avukat</option>
+        <option value="nurse">Hemşire</option>
+        <option value="architect">Mimar</option>
+        <option value="accountant">Muhasebeci</option>
+        <option value="police">Polis</option>
+        <option value="firefighter">İtfaiyeci</option>
+        <option value="chef">Aşçı</option>
+        <option value="driver">Şoför</option>
+        <option value="artist">Sanatçı</option>
+        <option value="student">Öğrenci</option>
+        <option value="other">Diğer</option>
+      </Select>
 
-      <Label>Upload Video</Label>
-      <Input type="file" name="video" accept="video/*" onChange={handleFileChange} />
+      <Label>İlçe</Label>
+      <Select name="district" onChange={handleChange}>
+        <option value="">İlçe Seçin</option>
+        <option value="osmangazi">Osmangazi</option>
+        <option value="yildirim">Yıldırım</option>
+        <option value="nilüfer">Nilüfer</option>
+        <option value="gursu">Gürsu</option>
+        <option value="kestel">Kestel</option>
+        <option value="inegöl">İnegöl</option>
+        <option value="gemlik">Gemlik</option>
+        <option value="mudanya">Mudanya</option>
+        <option value="karacabey">Karacabey</option>
+        <option value="mustafakemalpasa">Mustafakemalpaşa</option>
+        <option value="orhaneli">Orhaneli</option>
+        <option value="iznik">İznik</option>
+        <option value="buyukorhan">Büyükorhan</option>
+        <option value="keles">Keles</option>
+      </Select>
 
-      <Label>Upload Image</Label>
-      <Input type="file" name="image" accept="image/*" onChange={handleFileChange} />
-
-      <Button onClick={handleSubmit}>Submit</Button>
+      <Button onClick={handleSubmit}>Gönder</Button>
     </Container>
   );
 };
