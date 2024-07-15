@@ -1,38 +1,27 @@
 // pages/api/chat.js
 import axios from 'axios';
 
-const apiKey = process.env.NEXT_PUBLIC_OPENAI_API_KEY;
-
 export default async function handler(req, res) {
   if (req.method === 'POST') {
     const { message } = req.body;
 
-    try {
-      const response = await axios.post(
-        'https://api.openai.com/v1/engines/davinci-codex/completions',
-        {
-          prompt: message,
-          max_tokens: 150,
-          n: 1,
-          stop: null,
-          temperature: 0.7,
+    const openaiResponse = await axios.post(
+      'https://api.openai.com/v1/chat/completions',
+      {
+        model: 'gpt-4',
+        messages: [{ role: 'system', content: 'You are a helpful assistant.' }, { role: 'user', content: message }],
+      },
+      {
+        headers: {
+          'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`,
+          'Content-Type': 'application/json',
         },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${apiKey}`,
-          },
-        }
-      );
+      }
+    );
 
-      const botResponse = response.data.choices[0].text.trim();
-      res.status(200).json({ message: botResponse });
-    } catch (error) {
-      console.error('Error communicating with OpenAI:', error);
-      res.status(500).json({ error: 'Error communicating with OpenAI' });
-    }
+    const botMessage = openaiResponse.data.choices[0].message.content;
+    res.status(200).json({ message: botMessage });
   } else {
-    res.setHeader('Allow', ['POST']);
-    res.status(405).end(`Method ${req.method} Not Allowed`);
+    res.status(405).json({ message: 'Method not allowed' });
   }
 }

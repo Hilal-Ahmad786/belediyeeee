@@ -3,6 +3,8 @@ import styled from '@emotion/styled';
 import Link from 'next/link';
 import getConfig from 'next/config';
 import styles from '../app/Home.module.css';
+import Chatbot from '../components/Chatbot';
+
 
 const { publicRuntimeConfig } = getConfig();
 
@@ -32,6 +34,8 @@ const Home = () => {
       <Link href={`${publicRuntimeConfig.basePath}/step1`}>
         <Button className='btn btn-success'>Start Form</Button>
       </Link>
+      <Chatbot />
+
     </Container>
         </div>
 
