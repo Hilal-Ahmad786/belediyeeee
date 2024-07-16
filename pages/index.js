@@ -65,7 +65,7 @@ const Home = () => {
         <Link href="/step4" passHref>
           <BlueButton>
             <Icon className="fas fa-file-alt" style={{ marginRight: '10px' }}></Icon>
-            Talep Şikayet İstek
+            Başvuru Yap
             <Icon className="fas fa-arrow-right" style={{ marginLeft: '10px' }}></Icon>
           </BlueButton>
         </Link>
