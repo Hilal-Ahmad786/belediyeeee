@@ -3,62 +3,95 @@ import { useState } from 'react';
 import axios from 'axios';
 import styles from '../app/ChatBot.module.css';
 
-const Chatbot = () => {
+const ChatBot = () => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
     applicationType: '',
+    applicationSubType: '',
     relevantUnit: '',
     personalInfo: {},
-    addressInfo: {},
-    applicationInfo: {},
-    file: null
+    addressInfo: '',
+    applicationInfo: ''
   });
 
   const handleSend = async () => {
-    if (!input.trim() && step !== 5) return;
+    if (!input.trim() && step <= 12) return;
 
     const userMessage = { sender: 'user', text: input };
     setMessages([...messages, userMessage]);
 
     let botMessageText = '';
 
-    if (step === 1) {
-      setFormData({ ...formData, applicationType: input });
-      botMessageText = 'Step 2: Select the Relevant Unit for Application (General Secretariat, Information Technology, Human Resources, Parks and Gardens, Transportation, Other)';
-      setStep(2);
-    } else if (step === 2) {
-      setFormData({ ...formData, relevantUnit: input });
-      botMessageText = 'Step 3: Provide your Personal Information (Name, Surname, TR ID, Gender, Mobile, Email)';
-      setStep(3);
-    } else if (step === 3) {
-      const personalInfo = parsePersonalInfo(input);
-      setFormData({ ...formData, personalInfo });
-      botMessageText = 'Step 4: Provide your Address Information (Select Location, Select Address, or type "I Do Not Want to Enter Address")';
-      setStep(4);
-    } else if (step === 4) {
-      const addressInfo = parseAddressInfo(input);
-      setFormData({ ...formData, addressInfo });
-      botMessageText = 'Step 5: Provide your Application Information (Subject and detailed text)';
-      setStep(5);
-    } else if (step === 5) {
-      const applicationInfo = parseApplicationInfo(input);
-      setFormData({ ...formData, applicationInfo });
-      botMessageText = 'Please upload a file if needed.';
-      setStep(6);
-    } else if (step === 6) {
-      await submitApplication(formData);
-      botMessageText = 'Your application has been submitted. Thank you!';
-      setStep(1);
-      setFormData({
-        applicationType: '',
-        relevantUnit: '',
-        personalInfo: {},
-        addressInfo: {},
-        applicationInfo: {},
-        file: null
-      });
+    switch (step) {
+      case 1:
+        botMessageText = 'Başvuru Türünüzü Seçiniz:';
+        setStep(2);
+        break;
+      case 2:
+        setFormData({ ...formData, applicationType: input });
+        botMessageText = 'Seçiniz:';
+        setStep(3);
+        break;
+      case 3:
+        setFormData({ ...formData, applicationSubType: input });
+        botMessageText = 'Başvuru İçin İlgili Birimi Seçiniz:';
+        setStep(4);
+        break;
+      case 4:
+        setFormData({ ...formData, relevantUnit: input });
+        botMessageText = 'İsim:';
+        setStep(5);
+        break;
+      case 5:
+        setFormData({ ...formData, personalInfo: { ...formData.personalInfo, name: input } });
+        botMessageText = 'Soyisim:';
+        setStep(6);
+        break;
+      case 6:
+        setFormData({ ...formData, personalInfo: { ...formData.personalInfo, surname: input } });
+        botMessageText = 'TC:';
+        setStep(7);
+        break;
+      case 7:
+        setFormData({ ...formData, personalInfo: { ...formData.personalInfo, tc: input } });
+        botMessageText = 'Cinsiyet:';
+        setStep(8);
+        break;
+      case 8:
+        setFormData({ ...formData, personalInfo: { ...formData.personalInfo, gender: input } });
+        botMessageText = 'Cep:';
+        setStep(9);
+        break;
+      case 9:
+        setFormData({ ...formData, personalInfo: { ...formData.personalInfo, mobile: input } });
+        botMessageText = 'Eposta:';
+        setStep(10);
+        break;
+      case 10:
+        setFormData({ ...formData, personalInfo: { ...formData.personalInfo, email: input } });
+        botMessageText = 'Konumu gir:';
+        setStep(11);
+        break;
+      case 11:
+        setFormData({ ...formData, addressInfo: input });
+        botMessageText = 'Adres gir:';
+        setStep(12);
+        break;
+      case 12:
+        setFormData({ ...formData, applicationInfo: input });
+        botMessageText = 'Açıklama:';
+        setStep(13);
+        break;
+      case 13:
+        // Summarize and send the application data
+        await submitApplication(formData);
+        botMessageText = `Başvurunuz alındı, Teşekkürler.\n\nÖzet:\nBaşvuru Türü: ${formData.applicationType}\nBaşvuru Alt Türü: ${formData.applicationSubType}\nİlgili Birim: ${formData.relevantUnit}\nİsim: ${formData.personalInfo.name}\nSoyisim: ${formData.personalInfo.surname}\nTC: ${formData.personalInfo.tc}\nCinsiyet: ${formData.personalInfo.gender}\nCep: ${formData.personalInfo.mobile}\nEposta: ${formData.personalInfo.email}\nKonum: ${formData.addressInfo}\nAdres: ${formData.addressInfo}\nAçıklama: ${formData.applicationInfo}`;
+        setStep(14);
+        break;
+      default:
+        botMessageText = 'Başvurunuz tamamlandı.';
     }
 
     const botMessage = { sender: 'bot', text: botMessageText };
@@ -66,73 +99,79 @@ const Chatbot = () => {
     setInput('');
   };
 
-  const parsePersonalInfo = (input) => {
-    const [name, surname, trId, gender, mobile, email] = input.split(',');
-    return { name, surname, trId, gender, mobile, email };
-  };
-
-  const parseAddressInfo = (input) => {
-    const [location, address] = input.split(',');
-    return { location, address };
-  };
-
-  const parseApplicationInfo = (input) => {
-    const [subject, text] = input.split(',');
-    return { subject, text };
-  };
-
-  const handleFileChange = (e) => {
-    setFormData({ ...formData, file: e.target.files[0] });
-  };
-
   const submitApplication = async (data) => {
-    const formData = new FormData();
-    Object.keys(data).forEach(key => {
-      if (key === 'file' && data[key]) {
-        formData.append(key, data[key]);
-      } else {
-        formData.append(key, JSON.stringify(data[key]));
-      }
-    });
-
-    await axios.post('/api/submit', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      }
-    });
+    try {
+      const response = await axios.post('/api/submit', data, {
+        headers: { 'Content-Type': 'application/json' },
+      });
+      console.log(response.data);
+    } catch (error) {
+      console.error('Error submitting application:', error);
+    }
   };
+
+  const renderDropdown = (options, onChange, heading) => (
+    <div>
+      <h4>{heading}</h4>
+      <select className={styles.dropdown} onChange={(e) => onChange(e.target.value)}>
+        <option value="">Seçiniz</option>
+        {options.map(option => (
+          <option key={option} value={option}>{option}</option>
+        ))}
+      </select>
+    </div>
+  );
 
   return (
     <div className={styles['chatbot-wrapper']}>
       <div className={styles['chatbot-header']}>
-        <h1>Citizen Panel</h1>
+        <h5>Yapay Zeka Yardım Asistanı</h5>
       </div>
       <div className={styles['chatbot-container']}>
         {messages.map((msg, index) => (
           <div key={index} className={styles['message']} style={{ textAlign: msg.sender === 'user' ? 'right' : 'left' }}>
-            <p><strong>{msg.sender === 'user' ? 'You' : 'ChatGPT'}:</strong> {msg.text}</p>
+            <p><strong>{msg.sender === 'user' ? 'You' : 'ChatBot'}:</strong> {msg.text}</p>
           </div>
         ))}
       </div>
-      {step !== 6 && (
+      {step === 1 && renderDropdown(['Talep', 'Şikayet', 'Öneri'], value => {
+        setFormData({ ...formData, applicationType: value });
+        setMessages([...messages, { sender: 'user', text: value }]);
+        setStep(2);
+      }, 'Başvuru Türünüzü Seçiniz')}
+      {step === 2 && formData.applicationType === 'Talep' && renderDropdown(['Sosyal Yardım Talebi', 'Bilgi Edinme', 'Ruhsat', 'İmar'], value => {
+        setFormData({ ...formData, applicationSubType: value });
+        setMessages([...messages, { sender: 'user', text: value }]);
+        setStep(3);
+      }, 'Seçiniz')}
+      {step === 2 && formData.applicationType === 'Şikayet' && renderDropdown(['Ulaşım', 'Temizlik', 'Zabıta', 'İmar', 'Aydınlatma'], value => {
+        setFormData({ ...formData, applicationSubType: value });
+        setMessages([...messages, { sender: 'user', text: value }]);
+        setStep(3);
+      }, 'Seçiniz')}
+      {step === 2 && formData.applicationType === 'Öneri' && renderDropdown(['Ulaşım', 'Temizlik', 'Kültür', 'Eğitim', 'Teknoloji'], value => {
+        setFormData({ ...formData, applicationSubType: value });
+        setMessages([...messages, { sender: 'user', text: value }]);
+        setStep(3);
+      }, 'Seçiniz')}
+      {step === 3 && renderDropdown(['Genel Sekreterlik', 'Bilgi İşlem', 'İnsan Kaynakları', 'Park Bahçeler', 'Ulaşım ', 'Diğer  '], value => {
+        setFormData({ ...formData, relevantUnit: value });
+        setMessages([...messages, { sender: 'user', text: value }]);
+        setStep(4);
+      }, 'Başvuru İçin İlgili Birimi Seçiniz')}
+      {step >= 4 && step <= 13 && (
         <div className={styles['input-container']}>
-          <input 
-            type="text" 
-            value={input} 
-            onChange={(e) => setInput(e.target.value)} 
+          <input
+            type="text"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
             className={styles['text-input']}
           />
-          <button className={styles['send-button']} onClick={handleSend}>Send</button>
-        </div>
-      )}
-      {step === 6 && (
-        <div className={styles['input-container']}>
-          <input type="file" onChange={handleFileChange} />
-          <button className={styles['send-button']} onClick={handleSend}>Upload</button>
+          <button onClick={handleSend} className={styles['send-button']}>Gönder</button>
         </div>
       )}
     </div>
   );
 };
 
-export default Chatbot;
+export default ChatBot;
