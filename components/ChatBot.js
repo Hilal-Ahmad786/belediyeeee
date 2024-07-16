@@ -32,7 +32,7 @@ const ChatBot = () => {
         break;
       case 2:
         setFormData({ ...formData, applicationType: input });
-        botMessageText = 'Seçiniz:';
+        botMessageText = 'Seçiniz: ' ;
         setStep(3);
         break;
       case 3:
