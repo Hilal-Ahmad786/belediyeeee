@@ -18,16 +18,32 @@ const ButtonContainer = styled.div`
 `;
 
 const Button = styled.button`
-  width: 200px;
-  padding: 16px 0;
+  width: 250px;
+  height: 60px;
   color: white;
-  background-color: #28a745;
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 18px;
   margin: 10px 0;
   text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  text-decoration: none;
+`;
+
+const BlueButton = styled(Button)`
+  background-color: #0070f3;
+`;
+
+const GreenButton = styled(Button)`
+  background-color: #28a745;
+`;
+
+const RedButton = styled(Button)`
+  background-color: #ff0000;
 `;
 
 const VideoContainer = styled.div`
@@ -37,33 +53,58 @@ const VideoContainer = styled.div`
   height: 400px;
 `;
 
+const Icon = styled.i`
+  font-size: 30px;
+  text-decoration: none;
+`;
+
 const Home = () => {
   return (
     <Container>
       <ButtonContainer>
-        <Link href="/step4">
-          <Button>Kişisel bilgiler</Button>
+        <Link href="/step4" passHref>
+          <BlueButton>
+            <Icon className="fas fa-file-alt" style={{ marginRight: '10px' }}></Icon>
+            Talep Şikayet İstek
+            <Icon className="fas fa-arrow-right" style={{ marginLeft: '10px' }}></Icon>
+          </BlueButton>
         </Link>
-        <Link href="https://www.cimer.gov.tr/">
-          <Button>Cimer</Button>
+        <Link href="https://www.cimer.gov.tr/" passHref>
+          <GreenButton>
+            <Icon className="fas fa-file-alt" style={{ marginRight: '10px' }}></Icon>
+            Cimer
+            <Icon className="fas fa-arrow-right" style={{ marginLeft: '10px' }}></Icon>
+          </GreenButton>
         </Link>
-        <Link href="https://www.turkiye.gov.tr/icisleri-sosyal-yardim-talebinde-bulunma-ve-talebi-sorgulama-4671">
-          <Button>Sosyal Yardim</Button>
+        <Link href="https://www.osmangazi.bel.tr/tr/basvuru-rehberi/diger-islemler" passHref>
+          <RedButton>
+            <Icon className="fas fa-file-alt" style={{ marginRight: '10px' }}></Icon>
+            Sosyal Yardim
+            <Icon className="fas fa-arrow-right" style={{ marginLeft: '10px' }}></Icon>
+          </RedButton>
         </Link>
       </ButtonContainer>
 
       <ButtonContainer>
-        <Link href="https://www.osmangazi.bel.tr/tr/basvuru-rehberi/diger-islemler">
-          <Button>Basvuru Rehberi</Button>
+        <Link href="https://www.osmangazi.bel.tr/tr/basvuru-rehberi/diger-islemler" passHref>
+          <GreenButton>
+            <Icon className="fas fa-file-alt" style={{ marginRight: '10px' }}></Icon>
+            Basvuru Rehberi
+            <Icon className="fas fa-arrow-right" style={{ marginLeft: '10px' }}></Icon>
+          </GreenButton>
         </Link>
-        <Link href="https://osmangazi.bel.tr/anket/">
-          <Button>Anket</Button>
+        <Link href="https://osmangazi.bel.tr/anket/" passHref>
+          <GreenButton>
+            <Icon className="fas fa-file-alt" style={{ marginRight: '10px' }}></Icon>
+            Anket
+            <Icon className="fas fa-arrow-right" style={{ marginLeft: '10px' }}></Icon>
+          </GreenButton>
         </Link>
       </ButtonContainer>
 
       <VideoContainer>
         <video width="100%" height="100%" controls>
-          <source src="/video.mp4" type="video1/mp4" />
+          <source src="/video.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
       </VideoContainer>
