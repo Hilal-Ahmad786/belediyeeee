@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import Link from 'next/link';
 import getConfig from 'next/config';
 import styles from '../app/Home.module.css';
-import Chatbot from '../components/Chatbot';
+import Chatbot from '../components/ChatBot';
 
 
 const { publicRuntimeConfig } = getConfig();
