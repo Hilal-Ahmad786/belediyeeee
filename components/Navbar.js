@@ -15,7 +15,7 @@ const CustomNavbar = () => {
             <h4>Bursa Belediyesi Demo Projesi</h4>
           </Nav>
         </Navbar.Collapse>
-      </Container >
+      </Container>
     </Navbar>
   );
 };
