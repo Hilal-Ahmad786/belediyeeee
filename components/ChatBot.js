@@ -1,6 +1,7 @@
-// components/Chatbot.js
+// components/ChatBot.js
 import { useState } from 'react';
 import axios from 'axios';
+import styles from '../app/ChatBot.module.css';
 
 const Chatbot = () => {
   const [messages, setMessages] = useState([]);
@@ -48,7 +49,7 @@ const Chatbot = () => {
       setStep(6);
     } else if (step === 6) {
       await submitApplication(formData);
-      botMessageText = 'Your application has been submitted successfully. Thank you!';
+      botMessageText = 'Your application has been submitted. Thank you!';
       setStep(1);
       setFormData({
         applicationType: '',
@@ -102,31 +103,33 @@ const Chatbot = () => {
   };
 
   return (
-    <div>
-      <h1>Citizen Panel</h1>
-      <div style={{ border: '1px solid #ccc', padding: '10px', maxHeight: '300px', overflowY: 'auto' }}>
+    <div className={styles['chatbot-wrapper']}>
+      <div className={styles['chatbot-header']}>
+        <h1>Citizen Panel</h1>
+      </div>
+      <div className={styles['chatbot-container']}>
         {messages.map((msg, index) => (
-          <div key={index} style={{ textAlign: msg.sender === 'user' ? 'right' : 'left' }}>
+          <div key={index} className={styles['message']} style={{ textAlign: msg.sender === 'user' ? 'right' : 'left' }}>
             <p><strong>{msg.sender === 'user' ? 'You' : 'ChatGPT'}:</strong> {msg.text}</p>
           </div>
         ))}
       </div>
       {step !== 6 && (
-        <>
+        <div className={styles['input-container']}>
           <input 
             type="text" 
             value={input} 
             onChange={(e) => setInput(e.target.value)} 
-            style={{ width: '80%' }} 
+            className={styles['text-input']}
           />
-          <button onClick={handleSend}>Send</button>
-        </>
+          <button className={styles['send-button']} onClick={handleSend}>Send</button>
+        </div>
       )}
       {step === 6 && (
-        <>
+        <div className={styles['input-container']}>
           <input type="file" onChange={handleFileChange} />
-          <button onClick={handleSend}>Upload</button>
-        </>
+          <button className={styles['send-button']} onClick={handleSend}>Upload</button>
+        </div>
       )}
     </div>
   );
