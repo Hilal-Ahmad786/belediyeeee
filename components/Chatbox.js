@@ -1,44 +1,140 @@
-// components/Chatbox.js
+import { useState, useEffect, useRef } from 'react';
+import axios from 'axios';
+import styles from '../app/ChatBot.module.css';
 
-import { useState } from 'react';
-
-const Chatbox = () => {
+const ChatBot = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState([{ role: 'system', content: 'You are a helpful assistant.' }]);
+  const [messages, setMessages] = useState([{ sender: 'bot', text: 'Merhaba! Ben Bursa Smart Assistant. Size Bursa hakkında bilgi vermek için buradayım. Nasıl yardımcı olabilirim?' }]);
   const [input, setInput] = useState('');
-  const [error, setError] = useState(null);
+  const [step, setStep] = useState(1);
+  const [formData, setFormData] = useState({
+    applicationType: '',
+    applicationSubType: '',
+    relevantUnit: '',
+    personalInfo: {},
+    addressInfo: '',
+    applicationInfo: ''
+  });
+  const messagesEndRef = useRef(null);
 
   const handleToggle = () => {
     setIsOpen(!isOpen);
   };
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    const newMessages = [...messages, { role: 'user', content: input }];
-    setMessages(newMessages);
+  const handleSend = async () => {
+    if (!input.trim()) return;
+
+    const userMessage = { sender: 'user', text: input };
+    setMessages(prevMessages => [...prevMessages, userMessage]);
+
+    const lowerInput = input.toLowerCase();
+    if (step === 1 && (lowerInput.includes('şikayet') || lowerInput.includes('talep') || lowerInput.includes('istek'))) {
+      setStep(2);
+      setFormData(prevFormData => ({ ...prevFormData, applicationType: lowerInput }));
+    }
+
+    let botMessageText = '';
+
+    switch (step) {
+      case 1:
+        botMessageText = 'Başvuru Türünüzü Seçiniz:';
+        setStep(2);
+        break;
+      case 2:
+        botMessageText = 'Seçiniz:';
+        break;
+      case 3:
+        setFormData(prevFormData => ({ ...prevFormData, applicationSubType: input }));
+        botMessageText = 'Başvuru İçin İlgili Birimi Seçiniz:';
+        setStep(4);
+        break;
+      case 4:
+        setFormData(prevFormData => ({ ...prevFormData, relevantUnit: input }));
+        botMessageText = 'İsim:';
+        setStep(5);
+        break;
+      case 5:
+        setFormData(prevFormData => ({ ...prevFormData, personalInfo: { ...prevFormData.personalInfo, name: input } }));
+        botMessageText = 'Soyisim:';
+        setStep(6);
+        break;
+      case 6:
+        setFormData(prevFormData => ({ ...prevFormData, personalInfo: { ...prevFormData.personalInfo, surname: input } }));
+        botMessageText = 'TC:';
+        setStep(7);
+        break;
+      case 7:
+        setFormData(prevFormData => ({ ...prevFormData, personalInfo: { ...prevFormData.personalInfo, tc: input } }));
+        botMessageText = 'Cinsiyet:';
+        setStep(8);
+        break;
+      case 8:
+        setFormData(prevFormData => ({ ...prevFormData, personalInfo: { ...prevFormData.personalInfo, gender: input } }));
+        botMessageText = 'Cep:';
+        setStep(9);
+        break;
+      case 9:
+        setFormData(prevFormData => ({ ...prevFormData, personalInfo: { ...prevFormData.personalInfo, mobile: input } }));
+        botMessageText = 'Eposta:';
+        setStep(10);
+        break;
+      case 10:
+        setFormData(prevFormData => ({ ...prevFormData, personalInfo: { ...prevFormData.personalInfo, email: input } }));
+        botMessageText = 'Konumu gir:';
+        setStep(11);
+        break;
+      case 11:
+        setFormData(prevFormData => ({ ...prevFormData, addressInfo: input }));
+        botMessageText = 'Adres gir:';
+        setStep(12);
+        break;
+      case 12:
+        setFormData(prevFormData => ({ ...prevFormData, applicationInfo: input }));
+        botMessageText = 'Açıklama:';
+        setStep(13);
+        break;
+      case 13:
+        await submitApplication(formData);
+        botMessageText = `Başvurunuz alındı, teşekkürler.\n\nÖzet:\nBaşvuru Türü: ${formData.applicationType}\nBaşvuru Alt Türü: ${formData.applicationSubType}\nİlgili Birim: ${formData.relevantUnit}\nİsim: ${formData.personalInfo.name}\nSoyisim: ${formData.personalInfo.surname}\nTC: ${formData.personalInfo.tc}\nCinsiyet: ${formData.personalInfo.gender}\nCep: ${formData.personalInfo.mobile}\nEposta: ${formData.personalInfo.email}\nKonum: ${formData.addressInfo}\nAdres: ${formData.addressInfo}\nAçıklama: ${formData.applicationInfo}`;
+        setStep(14);
+        break;
+      default:
+        botMessageText = 'Başvurunuz tamamlandı.';
+    }
+
+    const botMessage = { sender: 'bot', text: botMessageText };
+    setMessages(prevMessages => [...prevMessages, botMessage]);
     setInput('');
+  };
 
+  const submitApplication = async (data) => {
     try {
-      const response = await fetch('/api/chatgpt', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ messages: newMessages }),
+      const response = await axios.post('/api/chat', { message: JSON.stringify(data) }, {
+        headers: { 'Content-Type': 'application/json' },
       });
-
-      const data = await response.json();
-      if (response.ok) {
-        setMessages([...newMessages, { role: 'assistant', content: data.content }]);
-      } else {
-        setError(data.error);
-        console.error('Error from API:', data.error);
-      }
+      console.log(response.data);
     } catch (error) {
-      setError(error.message);
-      console.error('Error:', error.message);
+      console.error('Error submitting application:', error);
+      const botMessage = { sender: 'bot', text: 'Başvurunuzu gönderirken bir hata oluştu. Lütfen tekrar deneyin.' };
+      setMessages(prevMessages => [...prevMessages, botMessage]);
     }
   };
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages]);
+
+  const renderDropdown = (options, onChange, heading) => (
+    <div>
+      <h4>{heading}</h4>
+      <select className={styles.dropdown} onChange={(e) => onChange(e.target.value)}>
+        <option value="">Seçiniz</option>
+        {options.map(option => (
+          <option key={option} value={option}>{option}</option>
+        ))}
+      </select>
+    </div>
+  );
 
   return (
     <div style={{ position: 'fixed', bottom: 0, right: 0, margin: 20, zIndex: 1000 }}>
@@ -46,8 +142,9 @@ const Chatbox = () => {
         onClick={handleToggle}
         style={{
           position: 'absolute',
-          bottom: 70,
-          right: 30,
+          bottom: isOpen ? 'auto' : 0,
+          right: 0,
+          top: isOpen ? 0 : 'auto',
           backgroundColor: '#007bff',
           color: '#fff',
           border: 'none',
@@ -72,34 +169,69 @@ const Chatbox = () => {
             width: 300,
           }}
         >
-          <div style={{ padding: 10, borderBottom: '1px solid #ddd' }}>
-            <strong>ChatGPT</strong>
+          <div style={{ padding: 10, borderBottom: '1px solid #ddd', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <strong>ChatBot</strong>
+            <button
+              onClick={handleToggle}
+              style={{
+                backgroundColor: '#007bff',
+                color: '#fff',
+                border: 'none',
+                borderRadius: '50%',
+                width: 30,
+                height: 30,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              -
+            </button>
           </div>
-          <div style={{ height: 300, overflowY: 'scroll', padding: 10 }}>
-            {messages.map((message, index) => (
-              <div key={index} style={{ marginBottom: 10 }}>
-                <strong>{message.role === 'user' ? 'You' : 'ChatGPT'}:</strong>
-                <p>{message.content}</p>
+          <div className={styles['chatbot-container']}>
+            {messages.map((msg, index) => (
+              <div key={index} className={styles['message']} style={{ textAlign: msg.sender === 'user' ? 'right' : 'left' }}>
+                <p><strong>{msg.sender === 'user' ? 'You' : 'ChatBot'}:</strong> {msg.text}</p>
               </div>
             ))}
-            {error && <p style={{ color: 'red' }}>{error}</p>}
+            <div ref={messagesEndRef} />
           </div>
-          <form onSubmit={handleSubmit} style={{ padding: 10, borderTop: '1px solid #ddd', display: 'flex', gap: 10 }}>
-            <input
-              type="text"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              placeholder="Type your message..."
-              style={{ flex: 1, padding: 8, borderRadius: 4, border: '1px solid #ddd' }}
-            />
-            <button type="submit" style={{ backgroundColor: '#007bff', color: '#fff', border: 'none', padding: 8, borderRadius: 4 }}>
-              Send
-            </button>
-          </form>
+          {step === 1 && renderDropdown(['Talep', 'Şikayet', 'Öneri'], value => {
+            setFormData(prevFormData => ({ ...prevFormData, applicationType: value }));
+            setMessages(prevMessages => [...prevMessages, { sender: 'user', text: value }]);
+            setStep(2);
+          }, 'Başvuru Türünüzü Seçiniz')}
+          {step === 2 && formData.applicationType === 'Talep' && renderDropdown(['Sosyal Yardım Talebi', 'Bilgi Edinme', 'Ruhsat', 'İmar'], value => {
+            setFormData(prevFormData => ({ ...prevFormData, applicationSubType: value }));
+            setMessages(prevMessages => [...prevMessages, { sender: 'user', text: value }]);
+            setStep(3);
+          }, 'Seçiniz')}
+          {step === 2 && formData.applicationType === 'Şikayet' && renderDropdown(['Ulaşım', 'Temizlik', 'Zabıta', 'İmar', 'Aydınlatma'], value => {
+            setFormData(prevFormData => ({ ...prevFormData, applicationSubType: value }));
+            setMessages(prevMessages => [...prevMessages, { sender: 'user', text: value }]);
+            setStep(3);
+          }, 'Seçiniz')}
+          {step === 2 && formData.applicationType === 'Öneri' && renderDropdown(['Ulaşım', 'Temizlik', 'Kültür', 'Eğitim', 'Teknoloji'], value => {
+            setFormData(prevFormData => ({ ...prevFormData, applicationSubType: value }));
+            setMessages(prevMessages => [...prevMessages, { sender: 'user', text: value }]);
+            setStep(3);
+          }, 'Seçiniz')}
+          {step >= 3 && step <= 13 && (
+            <div className={styles['chatbot-input']}>
+              <input
+                type="text"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && handleSend()}
+                placeholder="Mesajınızı yazın..."
+              />
+              <button onClick={handleSend}>Gönder</button>
+            </div>
+          )}
         </div>
       )}
     </div>
   );
 };
 
-export default Chatbox;
+export default ChatBot;
