@@ -1,3 +1,4 @@
+// pages/step4.js
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
@@ -182,7 +183,7 @@ const Step4 = () => {
           <input type="checkbox" id="approval" />
           <label htmlFor="approval">Onaylıyormusunuz</label>
         </CheckBox>
-        <SubmitButton>Submit</SubmitButton>
+        <SubmitButton>Submit </SubmitButton>
       </Section>
     </Container>
   );
