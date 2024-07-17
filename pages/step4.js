@@ -1,4 +1,3 @@
-// pages/step4.js
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
