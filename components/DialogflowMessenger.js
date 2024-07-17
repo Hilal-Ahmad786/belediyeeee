@@ -18,30 +18,30 @@ const DialogflowMessenger = () => {
         />
       </Head>
       <df-messenger
-        oauth-client-id="INSERT_OAUTH_CLIENT_ID"
-        location="europe-west3"
+        oauth-client-id="498060657556"  // Replace with your actual OAuth client ID
+        location="australia-southeast1"
         project-id="osmangazi-belediyesi"
-        agent-id="830e9443-fbea-49a8-a7e1-98433b6f5045"
+        agent-id="9eca18a6-1006-4b9e-92f7-a3a25e9525d0"
         language-code="en"
         max-query-length="-1"
       >
-        <df-messenger-chat-bubble chat-title="Agent"></df-messenger-chat-bubble>
+        <df-messenger-chat-bubble chat-title="Agent Jul 17, 2024, 3:08:33 PM"></df-messenger-chat-bubble>
       </df-messenger>
       <style jsx global>{`
         df-messenger {
-          z-index: 999;
+          z-index: 99999999999;
           position: fixed;
           bottom: 16px;
-          right: 5px;
-          max-height: 50 vh; /* Max height 80% of viewport height */
+          right: 16px;
+          max-height: 50vh!important;
           width: 100%;
           max-width: 400px;
         }
         @media (max-width: 768px) {
           df-messenger {
-            right: 8px; /* Adjust right position for smaller screens */
-            bottom: 8px; /* Adjust bottom position for smaller screens */
-            max-width: 90%; /* Adjust max-width for smaller screens */
+            right: 8px; 
+            bottom: 8px; 
+            max-width: 90%; 
           }
         }
       `}</style>
