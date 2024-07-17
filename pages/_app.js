@@ -1,10 +1,11 @@
 import '../app/globals.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import Chatbox from '../components/Chatbox';
+import Appi from '../components/Appi';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
-import ChatBot from '../components/ChatBot';
 import Navbar from '../components/Navbar';
+import App from 'next/app';
 
 function MyApp({ Component, pageProps }) {
   return (
@@ -12,6 +13,7 @@ function MyApp({ Component, pageProps }) {
       <Navbar />
       <Component {...pageProps} />
       <Chatbox />
+      <Appi />
 
       
     </>

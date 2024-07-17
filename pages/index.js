@@ -1,7 +1,6 @@
 // pages/index.js
 import styled from '@emotion/styled';
 import Link from 'next/link';
-
 const Container = styled.div`
   display: flex;
   justify-content: space-around;
