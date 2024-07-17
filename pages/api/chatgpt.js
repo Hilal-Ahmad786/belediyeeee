@@ -1,11 +1,10 @@
-const express = require('express');
-const app = express();
-const cors = require('cors');
+const fetch = require('node-fetch');
 
-app.use(cors());
-app.use(express.json());
+export default async function handler(req, res) {
+  if (req.method !== 'POST') {
+    return res.status(405).json({ message: 'Method Not Allowed' });
+  }
 
-app.post('/api/basvuru', async (req, res) => {
   const { başvuruTürü, birim, kişiselBilgiler, adresBilgileri, başvuruBilgileri } = req.body;
 
   // Google AI Studio API Key
@@ -43,9 +42,4 @@ app.post('/api/basvuru', async (req, res) => {
     console.error('API Hatası:', error);
     res.status(500).json({ message: 'Başvuru gönderilemedi.' });
   }
-});
-
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+}
