@@ -1,5 +1,6 @@
 import '../app/globals.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
+import Chatbox from '../components/Chatbox';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ChatBot from '../components/ChatBot';
@@ -10,7 +11,9 @@ function MyApp({ Component, pageProps }) {
     <>
       <Navbar />
       <Component {...pageProps} />
-      <ChatBot />
+      <Chatbox />
+
+      
     </>
   );
 }

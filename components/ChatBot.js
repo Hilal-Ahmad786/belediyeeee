@@ -102,18 +102,7 @@ const ChatBot = () => {
     setInput('');
   };
 
-  const submitApplication = async (data) => {
-    try {
-      const response = await axios.post('/api/chat', { message: JSON.stringify(data) }, {
-        headers: { 'Content-Type': 'application/json' },
-      });
-      console.log(response.data);
-    } catch (error) {
-      console.error('Error submitting application:', error);
-      const botMessage = { sender: 'bot', text: 'Başvurunuzu gönderirken bir hata oluştu. Lütfen tekrar deneyin.' };
-      setMessages(prevMessages => [...prevMessages, botMessage]);
-    }
-  };
+  
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -134,6 +123,19 @@ const ChatBot = () => {
       </select>
     </div>
   );
+
+  const submitApplication = async (data) => {
+    try {
+      const response = await axios.post('/api/chat', { message: JSON.stringify(data) }, {
+        headers: { 'Content-Type': 'application/json' },
+      });
+      console.log(response.data);
+    } catch (error) {
+      console.error('Error submitting application:', error);
+      const botMessage = { sender: 'bot', text: 'Başvurunuzu gönderirken bir hata oluştu. Lütfen tekrar deneyin.' };
+      setMessages(prevMessages => [...prevMessages, botMessage]);
+    }
+  };
 
   return (
     <div className={styles['chatbot-wrapper']}>
