@@ -170,7 +170,7 @@ const ChatBot = () => {
           }}
         >
           <div style={{ padding: 10, borderBottom: '1px solid #ddd', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <strong>ChatBot</strong>
+            <strong>Bursa Smart Assistant</strong>
             <button
               onClick={handleToggle}
               style={{
@@ -191,7 +191,7 @@ const ChatBot = () => {
           <div className={styles['chatbot-container']}>
             {messages.map((msg, index) => (
               <div key={index} className={styles['message']} style={{ textAlign: msg.sender === 'user' ? 'right' : 'left' }}>
-                <p><strong>{msg.sender === 'user' ? 'You' : 'ChatBot'}:</strong> {msg.text}</p>
+                <p><strong>{msg.sender === 'user' ? 'You' : 'Bursa Smart Assistant'}:</strong> {msg.text}</p>
               </div>
             ))}
             <div ref={messagesEndRef} />
