@@ -13,20 +13,23 @@ app.post('/api/basvuru', async (req, res) => {
 
   // API isteklerini işle
   try {
-    const response = await fetch(https://aiplatform.googleapis.com/v1/projects/YOUR_PROJECT_ID/locations/us-central1/endpoints/YOUR_ENDPOINT_NAME:predict, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': Bearer ${apiKey},
-      },
-      body: JSON.stringify({
-        instances: [
-          {
-            // API isteği gövdesi 
-          }
-        ]
-      }),
-    });
+    const response = await fetch(
+      'https://aiplatform.googleapis.com/v1/projects/YOUR_PROJECT_ID/locations/us-central1/endpoints/YOUR_ENDPOINT_NAME:predict', 
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${apiKey}`,
+        },
+        body: JSON.stringify({
+          instances: [
+            {
+              // API isteği gövdesi
+            }
+          ]
+        }),
+      }
+    );
 
     const data = await response.json();
 
@@ -44,5 +47,5 @@ app.post('/api/basvuru', async (req, res) => {
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log(Server running on port ${PORT});
+  console.log(`Server running on port ${PORT}`);
 });
