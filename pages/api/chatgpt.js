@@ -1,28 +1,21 @@
-import { Configuration, OpenAIApi } from 'openai';
-
-const configuration = new Configuration({
-  apiKey: process.env.OPENAI_API_KEY,
-});
-
-const openai = new OpenAIApi(configuration);
-
-export default async function handler(req, res) {
-  if (req.method === 'POST') {
-    try {
-      const { messages } = req.body;
-
-      const response = await openai.createChatCompletion({
-        model: 'gpt-3.5-turbo',
-        messages: messages,
-      });
-
-      res.status(200).json(response.data.choices[0].message);
-    } catch (error) {
-      console.error('Error:', error.message);
-      res.status(500).json({ error: error.message });
+export default function handler(req, res) {
+    console.log('Request received:', req.method, req.body);
+  
+    if (req.method === 'POST') {
+      console.log('Request body:', req.body);
+      const { message } = req.body;
+  
+      if (!message) {
+        console.log('Message is missing in the request body');
+        return res.status(400).json({ error: 'Message is required' });
+      }
+  
+      console.log('Message received:', message);
+      res.status(200).json({ message: `Echo: ${message}` });
+    } else {
+      console.log('Invalid request method:', req.method);
+      res.setHeader('Allow', ['POST']);
+      res.status(405).end(`Method ${req.method} Not Allowed`);
     }
-  } else {
-    res.setHeader('Allow', ['POST']);
-    res.status(405).end(`Method ${req.method} Not Allowed`);
   }
-}
+  

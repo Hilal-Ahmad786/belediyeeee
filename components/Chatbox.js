@@ -46,8 +46,8 @@ const Chatbox = () => {
         onClick={handleToggle}
         style={{
           position: 'absolute',
-          bottom: 0,
-          right: 0,
+          bottom: 70,
+          right: 30,
           backgroundColor: '#007bff',
           color: '#fff',
           border: 'none',
