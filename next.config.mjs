@@ -1,4 +1,4 @@
-// next.config.mjs
+// next.config.js
 const isGitHubPages = process.env.DEPLOY_TARGET === 'github-pages';
 const repoName = 'belediyeeee'; // Replace with your repository name
 
@@ -9,9 +9,10 @@ export default {
   images: {
     unoptimized: true, // Necessary for GitHub Pages
   },
-  output: 'export', // Ensures next export is used
-  trailingSlash: true, // Ensures paths end with a trailing slash
   publicRuntimeConfig: {
     basePath: isGitHubPages ? `/${repoName}` : '',
+  },
+  experimental: {
+    esmExternals: 'loose', // This enables ESM support
   },
 };
