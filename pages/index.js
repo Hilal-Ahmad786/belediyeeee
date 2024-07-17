@@ -1,6 +1,9 @@
 // pages/index.js
 import styled from '@emotion/styled';
 import Link from 'next/link';
+import DialogflowMessenger from '../components/DialogflowMessenger';
+
+
 
 const Container = styled.div`
   display: flex;
@@ -83,6 +86,8 @@ const Home = () => {
             <Icon className="fas fa-arrow-right" style={{ marginLeft: '10px' }}></Icon>
           </RedButton>
         </Link>
+        <DialogflowMessenger />
+
       </ButtonContainer>
 
       <ButtonContainer>
@@ -100,6 +105,7 @@ const Home = () => {
             <Icon className="fas fa-arrow-right" style={{ marginLeft: '10px' }}></Icon>
           </GreenButton>
         </Link>
+
       </ButtonContainer>
 
       <VideoContainer>
@@ -108,6 +114,7 @@ const Home = () => {
           Your browser does not support the video tag.
         </video>
       </VideoContainer>
+
     </Container>
   );
 };
