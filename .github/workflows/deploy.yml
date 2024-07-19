@@ -25,6 +25,7 @@ jobs:
         run: |
           export DEPLOY_TARGET=github-pages
           npm run build
+          npm run export
 
       - name: Deploy to GitHub Pages
         env:

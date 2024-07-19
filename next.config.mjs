@@ -1,4 +1,3 @@
-// next.config.mjs
 const isGitHubPages = process.env.DEPLOY_TARGET === 'github-pages';
 const repoName = 'belediyeeee'; // Replace with your repository name
 
