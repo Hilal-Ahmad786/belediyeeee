@@ -1,38 +1,38 @@
-import { useState } from 'react';
-import { Configuration, OpenAIApi } from 'openai';
+// components/ChatBot.js
+
+import React, { useState } from 'react';
+import axios from 'axios';
 
 const ChatBot = () => {
-  const [message, setMessage] = useState('');
-  const [response, setResponse] = useState('');
+  const [messages, setMessages] = useState([]);
+  const [input, setInput] = useState('');
 
-  const sendMessage = async () => {
-    const configuration = new Configuration({
-      apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
-    });
-    const openai = new OpenAIApi(configuration);
+  const handleSend = async () => {
+    const userMessage = { text: input, sender: 'user' };
+    setMessages([...messages, userMessage]);
 
     try {
-      const res = await openai.createCompletion({
-        model: 'text-davinci-003',
-        prompt: message,
-        max_tokens: 150,
-        temperature: 0.7,
-      });
-      setResponse(res.data.choices[0].text);
+      const response = await axios.post('/api/chat', { prompt: input });
+      const assistantMessage = { text: response.data.message, sender: 'assistant' };
+      setMessages([...messages, userMessage, assistantMessage]);
     } catch (error) {
-      console.error(error);
-      setResponse('An error occurred.');
+      console.error('Error fetching response:', error);
     }
+
+    setInput('');
   };
 
   return (
     <div>
-      <textarea
-        value={message}
-        onChange={(e) => setMessage(e.target.value)}
-      />
-      <button onClick={sendMessage}>Send</button>
-      <p>{response}</p>
+      <div>
+        {messages.map((msg, index) => (
+          <div key={index} className={msg.sender === 'user' ? 'user-message' : 'assistant-message'}>
+            {msg.text}
+          </div>
+        ))}
+      </div>
+      <input value={input} onChange={(e) => setInput(e.target.value)} />
+      <button onClick={handleSend}>Send</button>
     </div>
   );
 };
